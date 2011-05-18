@@ -1,6 +1,15 @@
 = sunspot_test
 
-Description goes here.
+This gem will automatically start and stop solr for cucumber tests when using the @search tag. For instance, if you have a searchable book model this will allow you to create/query/destroy books.
+
+    @search
+    Feature: Books
+    
+      Scenario: Searching for a book
+        Given a book exists with a title of "Of Mice and Men"
+    
+
+Starting solr will depend on your settings in <b>config/sunspot.yml</b>. If you run into issues remember to look for existing java processes, starting solr may conflict with existing instances.
 
 == Note on Patches/Pull Requests
  
