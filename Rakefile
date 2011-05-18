@@ -5,11 +5,12 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "sunspot_test"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
-    gem.email = "zach.moazeni@gmail.com"
+    gem.summary = %Q{Auto-starts solr for your cucumber tests}
+    gem.description = %Q{Testing sunspot with cucumber can be a pain. This gem will automatically start/stop solr with cucumber scenarios tagged with @solr}
+    gem.email = "zach@collectiveidea.com"
     gem.homepage = "http://github.com/zmoazeni/sunspot_test"
     gem.authors = ["Zach Moazeni"]
+    gem.add_dependency "sunspot_rails", ">= 1.2.1"
     gem.add_development_dependency "rspec", ">= 1.2.9"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
@@ -28,6 +29,17 @@ Spec::Rake::SpecTask.new(:rcov) do |spec|
   spec.libs << 'lib' << 'spec'
   spec.pattern = 'spec/**/*_spec.rb'
   spec.rcov = true
+end
+
+begin
+  require 'cucumber/rake/task'
+  Cucumber::Rake::Task.new(:features)
+
+  task :features => :check_dependencies
+rescue LoadError
+  task :features do
+    abort "Cucumber is not available. In order to run features, you must: sudo gem install cucumber"
+  end
 end
 
 task :spec => :check_dependencies
