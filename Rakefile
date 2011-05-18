@@ -8,7 +8,7 @@ begin
     gem.summary = %Q{Auto-starts solr for your cucumber tests}
     gem.description = %Q{Testing sunspot with cucumber can be a pain. This gem will automatically start/stop solr with cucumber scenarios tagged with @solr}
     gem.email = "zach@collectiveidea.com"
-    gem.homepage = "http://github.com/zmoazeni/sunspot_test"
+    gem.homepage = "https://github.com/collectiveidea/sunspot_test"
     gem.authors = ["Zach Moazeni"]
     gem.add_dependency "sunspot_rails", ">= 1.2.1"
     gem.add_development_dependency "rspec", ">= 1.2.9"
