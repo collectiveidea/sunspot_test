@@ -6,7 +6,7 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "sunspot_test"
     gem.summary = %Q{Auto-starts solr for your cucumber tests}
-    gem.description = %Q{Testing sunspot with cucumber can be a pain. This gem will automatically start/stop solr with cucumber scenarios tagged with @solr}
+    gem.description = %Q{Testing sunspot with cucumber can be a pain. This gem will automatically start/stop solr with cucumber scenarios tagged with @search}
     gem.email = "zach@collectiveidea.com"
     gem.homepage = "https://github.com/collectiveidea/sunspot_test"
     gem.authors = ["Zach Moazeni"]
