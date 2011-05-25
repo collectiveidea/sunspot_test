@@ -1,5 +1,18 @@
 = sunspot_test
 
+== How to install
+
+Install this sunspot_test from rubygems either directly:
+
+  gem install sunspot_test
+
+Or through bundler
+  
+  # in Gemfile
+  gem "sunspot_test"
+
+== What does it do?
+
 This gem will automatically start and stop solr for cucumber tests when using the @search tag. For instance, if you have a searchable book model this will allow you to create/query/destroy books.
 
   @search
@@ -9,7 +22,7 @@ This gem will automatically start and stop solr for cucumber tests when using th
       Given a book exists with a title of "Of Mice and Men"
   
 
-Starting solr will depend on your settings in <b>config/sunspot.yml</b>. If you run into issues remember to look for existing java processes, starting solr may conflict with existing instances.
+Starting solr will depend on your settings in <b>config/sunspot.yml</b>. If you run into issues remember to look for existing java processes, starting solr may conflict with existing instances. You can also check out http://collectiveidea.com/blog/archives/2011/05/25/testing-with-sunspot-and-cucumber/ which contains a little more information.
 
 == Note on Patches/Pull Requests
  
