@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{sunspot_test}
-  s.version = "0.1.1"
+  s.version = "0.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Zach Moazeni"]
-  s.date = %q{2011-05-18}
+  s.date = %q{2011-05-25}
   s.description = %q{Testing sunspot with cucumber can be a pain. This gem will automatically start/stop solr with cucumber scenarios tagged with @solr}
   s.email = %q{zach@collectiveidea.com}
   s.extra_rdoc_files = [
@@ -27,7 +27,8 @@ Gem::Specification.new do |s|
      "lib/sunspot_test.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb",
-     "spec/sunspot_test_spec.rb"
+     "spec/sunspot_test_spec.rb",
+     "sunspot_test.gemspec"
   ]
   s.homepage = %q{https://github.com/collectiveidea/sunspot_test}
   s.rdoc_options = ["--charset=UTF-8"]
