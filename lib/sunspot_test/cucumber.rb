@@ -1,7 +1,13 @@
 require 'net/http'
 
+$original_sunspot_session = Sunspot.session
+
 Before("@searchrunning") do
   $sunspot = true
+end
+
+Before("~@search") do
+  Sunspot.session = Sunspot::Rails::StubSessionProxy.new($original_sunspot_session)
 end
 
 Before("@search") do
@@ -17,6 +23,7 @@ Before("@search") do
     SunspotTestHelper.wait_until_solr_starts
   end
   
+  Sunspot.session = $original_sunspot_session
   Sunspot.remove_all!
   Sunspot.commit
 end
