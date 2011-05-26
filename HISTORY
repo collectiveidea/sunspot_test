@@ -1,0 +1,10 @@
+0.1.3 - May 26, 2011
+  * Moved requires from "sunspot_test" to "sunspot_test/cucumber" so we didn't conflict with bundler's autorequire.
+  * Added non-@search functionality which stubs out the session and consequently speeds up the non-searching tests.
+  * Added a configurable startup_timeout which defaults to 15 seconds.
+0.1.2 - May 25, 2011
+  * Wrote a more descriptive Readme for new users.
+0.1.1 - May 18, 2011
+  * Moved the repo to collectiveidea.
+0.1.0 - May 18, 2011
+  * Initial codebase to github.

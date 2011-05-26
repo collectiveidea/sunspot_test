@@ -33,14 +33,14 @@ AfterStep('@search') do
 end
 
 module SunspotTestHelper
-  @@wait_seconds = 15
-  def self.wait_seconds; @@wait_seconds; end
-  def self.wait_seconds=(seconds); @@wait_seconds = seconds; end
+  @@startup_timeout = 15
+  def self.startup_timeout; @@startup_timeout; end
+  def self.startup_timeout=(seconds); @@startup_timeout = seconds; end
   
   def self.wait_until_solr_starts
     solr_started = false
     ping_uri = URI.parse("#{Sunspot.session.config.solr.url}/ping")
-    (@@wait_seconds * 10).times do
+    (@@startup_timeout * 10).times do
       begin
         Net::HTTP.get(ping_uri)
         solr_started = true

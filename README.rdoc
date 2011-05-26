@@ -10,6 +10,11 @@ Or through bundler
   
   # in Gemfile
   gem "sunspot_test"
+  
+Then in Cucumber's env.rb:
+  
+  require 'sunspot_test/cucumber'
+  
 
 == What does it do?
 
@@ -22,13 +27,22 @@ This gem will automatically start and stop solr for cucumber tests when using th
       Given a book exists with a title of "Of Mice and Men"
   
 
-Starting solr will depend on your settings in <b>config/sunspot.yml</b>. If you run into issues remember to look for existing java processes, starting solr may conflict with existing instances. You can also check out http://collectiveidea.com/blog/archives/2011/05/25/testing-with-sunspot-and-cucumber/ which contains a little more information.
+If you feature is not tagged with @search the environment will use a sunspot test proxy object which will silently swallow all requests.
+      
+Starting solr will depend on your settings in <b>config/sunspot.yml</b> (though this configuration file is optional). If you run into issues remember to look for existing java processes, starting solr may conflict with existing instances. You can also check out http://collectiveidea.com/blog/archives/2011/05/25/testing-with-sunspot-and-cucumber/ which contains a little more information.
+
+== Configuring the timeout
+
+The test suite will try and launch a solr process and wait for 15 seconds for the process to launch. You can configure this timeout by setting the following in env.rb:
+
+  
+  SunspotTestHelper.startup_timeout = 60 # will wait 60 seconds for the solr process to start
+  
 
 == Note on Patches/Pull Requests
  
 * Fork the project.
 * Make your feature addition or bug fix.
-* Add tests for it. This is important so I don't break it in a
   future version unintentionally.
 * Commit, do not mess with rakefile, version, or history.
   (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
