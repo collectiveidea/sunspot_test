@@ -1,4 +1,4 @@
-0.1.3 - May 26, 2011
+0.2.0 - May 26, 2011
   * Moved requires from "sunspot_test" to "sunspot_test/cucumber" so we didn't conflict with bundler's autorequire.
   * Added non-@search functionality which stubs out the session and consequently speeds up the non-searching tests.
   * Added a configurable startup_timeout which defaults to 15 seconds.
