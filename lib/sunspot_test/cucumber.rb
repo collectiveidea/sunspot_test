@@ -1,27 +1,25 @@
 require 'net/http'
 
-Before("@searchrunning") do
-  $sunspot = true
-end
-
-Before("@search") do
-  unless $sunspot
-    $sunspot = Sunspot::Rails::Server.new
+AfterConfiguration do |config|
+    sunspot = Sunspot::Rails::Server.new
+    
     pid = fork do
       STDERR.reopen('/dev/null')
       STDOUT.reopen('/dev/null')
-      $sunspot.run
+      sunspot.run
     end
+    
     # shut down the Solr server
     at_exit { Process.kill('TERM', pid) }
     SunspotTestHelper.wait_until_solr_starts
-  end
-  
+end
+
+Before("@search") do
   Sunspot.remove_all!
   Sunspot.commit
 end
 
-AfterStep('@search') do
+AfterStep("@search") do
   Sunspot.commit
 end
 
