@@ -14,7 +14,7 @@ Before("@search") do
     end
     # shut down the Solr server
     at_exit { Process.kill('TERM', pid) }
-    SunspotHelpers.wait_until_solr_starts
+    SunspotTestHelper.wait_until_solr_starts
   end
   
   Sunspot.remove_all!
@@ -25,11 +25,15 @@ AfterStep('@search') do
   Sunspot.commit
 end
 
-module SunspotHelpers
+module SunspotTestHelper
+  @@wait_seconds = 15
+  def self.wait_seconds; @@wait_seconds; end
+  def self.wait_seconds=(seconds); @@wait_seconds = seconds; end
+  
   def self.wait_until_solr_starts
     solr_started = false
     ping_uri = URI.parse("#{Sunspot.session.config.solr.url}/ping")
-    150.times do
+    (@@wait_seconds * 10).times do
       begin
         Net::HTTP.get(ping_uri)
         solr_started = true
