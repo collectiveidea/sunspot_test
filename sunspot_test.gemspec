@@ -26,7 +26,6 @@ Gem::Specification.new do |s|
     "features/support/env.rb",
     "lib/sunspot_test.rb",
     "lib/sunspot_test/cucumber.rb",
-    "spec/spec.opts",
     "spec/spec_helper.rb",
     "spec/sunspot_test_spec.rb",
     "sunspot_test.gemspec"

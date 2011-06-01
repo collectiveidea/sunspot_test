@@ -31,12 +31,56 @@ If you feature is not tagged with @search the environment will use a sunspot tes
       
 Starting solr will depend on your settings in <b>config/sunspot.yml</b> (though this configuration file is optional). If you run into issues remember to look for existing java processes, starting solr may conflict with existing instances. You can also check out http://collectiveidea.com/blog/archives/2011/05/25/testing-with-sunspot-and-cucumber/ which contains a little more information.
 
+== Can it do RSpec?
+
+Yes! To configure RSpec just add the following to your spec_helper file.
+
+   require 'sunspot_test'
+
+   SunspotTest.stub
+
+Then in the spec where you need to test Sunspot use
+
+   before(:all) { SunspotTest.setup_solr }
+   after(:all) { SunspotTest.stub }
+
+Then you can use Sunspot's own remove_all! and commit methods.
+
+   before(:each) do
+     Sunspot.remove_all!
+
+     @some_object = factory(:some_object)
+     Sunspot.commit
+   end
+
+Nested describe blocks can use or not use Solr
+
+   describe "with solr" do
+     before(:all) { SunspotTest.setup_solr }
+     after(:all) { SunspotTest.stub }
+
+     describe "also with solr" do
+       it "solr should be running" do
+         SunspotTest.send(:solr_running?).should eq(true)
+       end
+     end
+
+     describe "disable solr" do
+       before(:all) { SunspotTest.stub }
+       after(:all) { SunspotTest.unstub }
+     end
+
+     describe "with solr again" do
+      
+     end
+   end
+
 == Configuring the timeout
 
 The test suite will try and launch a solr process and wait for 15 seconds for the process to launch. You can configure this timeout by setting the following in env.rb:
 
   
-  SunspotTestHelper.startup_timeout = 60 # will wait 60 seconds for the solr process to start
+  SunspotTest.startup_timeout = 60 # will wait 60 seconds for the solr process to start
   
 
 == Note on Patches/Pull Requests
