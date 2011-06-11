@@ -1,3 +1,6 @@
+0.3.0 - June 11, 2011
+  * Renaming SunspotTestHelper to SunspotTest (thanks ersatzryan)
+  * Enabling testing within rspec specs
 0.2.0 - May 26, 2011
   * Moved requires from "sunspot_test" to "sunspot_test/cucumber" so we didn't conflict with bundler's autorequire.
   * Added non-@search functionality which stubs out the session and consequently speeds up the non-searching tests.
