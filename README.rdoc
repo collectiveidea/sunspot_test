@@ -54,7 +54,7 @@ Then within your specs, you'll need to tag and explicitly commit changes to solr
 The test suite will try and launch a solr process and wait for 15 seconds for the process to launch. You can configure this timeout by setting the following in env.rb:
 
   
-  SunspotTest.startup_timeout = 60 # will wait 60 seconds for the solr process to start
+  SunspotTest.solr_startup_timeout = 60 # will wait 60 seconds for the solr process to start
   
 
 == Note on Patches/Pull Requests
