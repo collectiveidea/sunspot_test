@@ -33,47 +33,21 @@ Starting solr will depend on your settings in <b>config/sunspot.yml</b> (though 
 
 == Can it do RSpec?
 
-Yes! To configure RSpec just add the following to your spec_helper file.
+In spec_helper.rb
 
-   require 'sunspot_test'
+  require 'sunspot_test/rspec'
+  
+Then within your specs, you'll need to tag and explicitly commit changes to solr:
 
-   SunspotTest.stub
-
-Then in the spec where you need to test Sunspot use
-
-   before(:all) { SunspotTest.setup_solr }
-   after(:all) { SunspotTest.stub }
-
-Then you can use Sunspot's own remove_all! and commit methods.
-
-   before(:each) do
-     Sunspot.remove_all!
-
-     @some_object = factory(:some_object)
-     Sunspot.commit
-   end
-
-Nested describe blocks can use or not use Solr
-
-   describe "with solr" do
-     before(:all) { SunspotTest.setup_solr }
-     after(:all) { SunspotTest.stub }
-
-     describe "also with solr" do
-       it "solr should be running" do
-         SunspotTest.send(:solr_running?).should eq(true)
-       end
-     end
-
-     describe "disable solr" do
-       before(:all) { SunspotTest.stub }
-       after(:all) { SunspotTest.unstub }
-     end
-
-     describe "with solr again" do
-      
-     end
-   end
+  require 'spec_helper'
+  
+  describe "searching", :search => true do
+    it 'returns book results' do
+      book = Factory(:book, :title => "Of Mice and Men")
+      Sunspot.commit
+      Book.search { keywords "mice"}.results.should == [book]
+    end
+  end
 
 == Configuring the timeout
 
