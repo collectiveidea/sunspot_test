@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{sunspot_test}
-  s.version = "0.2.0"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Zach Moazeni"]
@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   ]
   s.files = [
     ".document",
+    "Gemfile",
     "HISTORY",
     "LICENSE",
     "README.rdoc",
@@ -26,6 +27,7 @@ Gem::Specification.new do |s|
     "features/support/env.rb",
     "lib/sunspot_test.rb",
     "lib/sunspot_test/cucumber.rb",
+    "lib/sunspot_test/rspec.rb",
     "spec/spec_helper.rb",
     "spec/sunspot_test_spec.rb",
     "sunspot_test.gemspec"
