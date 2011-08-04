@@ -22,7 +22,7 @@ module SunspotTest
     end
 
     def start_sunspot_server
-      unless @server
+      unless @running
         pid = fork do
           STDERR.reopen("/dev/null")
           STDOUT.reopen("/dev/null")
@@ -31,6 +31,7 @@ module SunspotTest
 
         at_exit { Process.kill("TERM", pid) }
 
+        @running = true
         wait_until_solr_starts
       end
     end
