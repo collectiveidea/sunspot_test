@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{sunspot_test}
-  s.version = "0.3.1"
+  s.version = "0.3.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Zach Moazeni"]
-  s.date = %q{2011-06-11}
+  s.date = %q{2011-08-04}
   s.description = %q{Testing sunspot with cucumber can be a pain. This gem will automatically start/stop solr with cucumber scenarios tagged with @search}
   s.email = %q{zach@collectiveidea.com}
   s.extra_rdoc_files = [
@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = %q{https://github.com/collectiveidea/sunspot_test}
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.4.2}
+  s.rubygems_version = %q{1.6.2}
   s.summary = %q{Auto-starts solr for your cucumber tests}
 
   if s.respond_to? :specification_version then
