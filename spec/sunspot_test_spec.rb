@@ -30,7 +30,7 @@ describe SunspotTest do
 
   describe ".start_sunspot_server" do
     context "if server is already started" do
-      before(:each) { SunspotTest.server = true }
+      before(:each) { SunspotTest.stub!(:solr_running? => true) }
 
       it "does not try to spin up another server" do
         Kernel.should_not_receive(:fork)
