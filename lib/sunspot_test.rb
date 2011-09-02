@@ -65,10 +65,18 @@ module SunspotTest
       end
       raise TimeOutError, "Solr failed to start after #{solr_startup_timeout} seconds" unless solr_running?
     end
+    
+    def solr_ping_uri
+      c = Sunspot::Rails.configuration
+      URI::HTTP.build(
+        :host => c.master_hostname,
+        :port => c.master_port,
+        :path => c.master_path
+      )
+    end
 
     def solr_running?
       begin
-        solr_ping_uri = URI.parse("#{Sunspot.session.config.solr.url}/ping")
         Net::HTTP.get(solr_ping_uri)
         true # Solr Running
       rescue
