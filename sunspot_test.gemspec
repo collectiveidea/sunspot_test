@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
     "lib/sunspot_test.rb",
     "lib/sunspot_test/cucumber.rb",
     "lib/sunspot_test/rspec.rb",
+    "lib/sunspot_test/test_unit.rb",
     "spec/spec_helper.rb",
     "spec/sunspot_test_spec.rb",
     "sunspot_test.gemspec"
