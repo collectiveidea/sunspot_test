@@ -90,7 +90,7 @@ Then within your steps, you'll need to explicitly commit changes to solr:
     end
 
     Then 'the search results be "Of Mice and Men"' do
-      Book.search { keywords "mice"}.results.must_equal book]
+      Book.search { keywords "mice"}.results.must_equal [book]
     end
   end
 
