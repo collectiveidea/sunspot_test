@@ -65,6 +65,36 @@ Then within your test, you'll need to tag and explicitly commit changes to solr:
     assert_equal [book], Book.search { keywords "mice"}.results
   end
 
+== Can it do Spinach?
+
+In support/env.rb
+
+  require 'sunspot_test/spinach'
+
+Then within your feature, you'll have to add the search tag before each scenario, as Spinach doesn't check for tags before features.
+
+  Feature: Books
+  
+    @search
+    Scenario: Searching for a book
+      Given a book exists with a title of "Of Mice and Men"
+      Then the search results be "Of Mice and Men"
+
+Then within your steps, you'll need to tag and explicitly commit changes to solr:
+
+  class Books < Spinach::FeatureSteps
+    feature 'Books'
+    Given 'a book exists with a title of "Of Mice and Men"' do
+      book = Factory(:book, :title => "Of Mice and Men")
+      Sunspot.commit
+    end
+
+    Then 'the search results be "Of Mice and Men"' do
+      Book.search { keywords "mice"}.results.must_equal book]
+    end
+  end
+
+
 == Configuring the timeout
 
 The test suite will try and launch a solr process and wait for 15 seconds for the process to launch. You can configure this timeout by setting the following in env.rb:
