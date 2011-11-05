@@ -67,7 +67,7 @@ Then within your test, you'll need to tag and explicitly commit changes to solr:
 
 == Can it do Spinach?
 
-In support/env.rb
+In features/support/whatever.rb
 
   require 'sunspot_test/spinach'
 
@@ -80,7 +80,7 @@ Then within your feature, you'll have to add the search tag before each scenario
       Given a book exists with a title of "Of Mice and Men"
       Then the search results be "Of Mice and Men"
 
-Then within your steps, you'll need to tag and explicitly commit changes to solr:
+Then within your steps, you'll need to explicitly commit changes to solr:
 
   class Books < Spinach::FeatureSteps
     feature 'Books'
