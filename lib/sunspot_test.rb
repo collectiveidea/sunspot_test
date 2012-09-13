@@ -18,7 +18,11 @@ module SunspotTest
     end
 
     def server
-      @server ||= Sunspot::Rails::Server.new
+      if defined?(Rails)
+        @server ||= Sunspot::Rails::Server.new
+      else
+        @server ||= Sunspot::Solr::Server.new
+      end
     end
 
     def start_sunspot_server
