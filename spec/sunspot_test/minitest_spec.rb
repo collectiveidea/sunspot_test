@@ -1,6 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe "minitest.rb" do
+  after(:all) do
+    SunspotTest.custom_module_name = nil
+  end
+
   describe "with MiniTest::Unit version that's too old" do
     it "raises an exception" do
       stub_const("MiniTest::Unit::VERSION", '2.10.9')
@@ -10,8 +14,8 @@ describe "minitest.rb" do
     end
   end
 
-  describe "with valid MiniTest version" do
-    it "modifies behavior of SunspotTest.set_kill_server_callback (to call MiniTest::Unit.after_tests)" do
+  describe "SunspotTest::MiniTest.set_kill_server_callback" do
+    it "should call MiniTest::Unit.after_tests (instead of Kernel#at_exit)" do
       stub_const('MiniTest::Unit', Class.new do
         def self.after_tests(&block)
           yield
@@ -23,7 +27,7 @@ describe "minitest.rb" do
       block_obj.should_receive(:foo)
       SunspotTest.stub!(:setup_solr)
       load File.expand_path(File.dirname(__FILE__) + '/../../lib/sunspot_test/minitest.rb')
-      SunspotTest.set_kill_server_callback { block_obj.foo }
+      SunspotTest::MiniTest.set_kill_server_callback { block_obj.foo }
     end
   end
 end
