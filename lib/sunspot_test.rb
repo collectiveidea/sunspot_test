@@ -7,6 +7,7 @@ module SunspotTest
 
     attr_writer :solr_startup_timeout
     attr_writer :server
+    attr_accessor :custom_module_name
 
     def solr_startup_timeout
       @solr_startup_timeout || 15
@@ -29,7 +30,7 @@ module SunspotTest
           server.run
         end
 
-        at_exit { Process.kill("TERM", pid) }
+        (custom_module_name ? eval(custom_module_name) : self).send(:set_kill_server_callback) { Process.kill("TERM", pid) }
 
         wait_until_solr_starts
       end
@@ -73,6 +74,10 @@ module SunspotTest
       rescue
         false # Solr Not Running
       end
+    end
+
+    def set_kill_server_callback(&block)
+      at_exit &block
     end
   end
 end

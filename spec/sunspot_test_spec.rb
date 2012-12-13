@@ -30,7 +30,7 @@ describe SunspotTest do
 
   describe ".start_sunspot_server" do
     context "if server is already started" do
-      before(:each) { SunspotTest.stub!(:solr_running? => true) }
+      before(:each) { SunspotTest.stub!(:solr_running?).and_return(true) }
 
       it "does not try to spin up another server" do
         Kernel.should_not_receive(:fork)
@@ -154,6 +154,24 @@ describe SunspotTest do
 
           lambda { SunspotTest.send(:wait_until_solr_starts) }.should_not raise_error
         end
+      end
+    end
+
+    describe "killing the server" do
+      it "should call the default 'set_kill_server_callback' method" do
+        SunspotTest.custom_module_name = nil
+        SunspotTest.stub!(:wait_until_solr_starts)
+        SunspotTest.should_receive(:set_kill_server_callback)
+        SunspotTest.start_sunspot_server
+      end
+
+      it "should call the custom module's 'set_kill_server_callback' method" do
+        mod = double('SunspotTest::CustomModule')
+        stub_const('SunspotTest::CustomModule', mod)
+        mod.should_receive(:set_kill_server_callback)
+        SunspotTest.custom_module_name = 'SunspotTest::CustomModule'
+        SunspotTest.stub!(:wait_until_solr_starts)
+        SunspotTest.start_sunspot_server
       end
     end
   end
