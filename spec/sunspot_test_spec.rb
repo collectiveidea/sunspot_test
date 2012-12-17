@@ -29,8 +29,21 @@ describe SunspotTest do
   end
 
   describe ".start_sunspot_server" do
+    context "checking the correct URI when determining is Solr is running" do
+      before(:each) do 
+        @url_base = "http://localhost:12345/foo" 
+        Sunspot.session.config.solr.stub!(:url) { @url_base }
+      end
+  
+      it "generates the Solr 'ping' URI" do
+        SunspotTest.send(:solr_ping_uri).should eq(URI.parse("#{@url_base}/admin/ping")) 
+      end
+    end
+
     context "if server is already started" do
-      before(:each) { SunspotTest.stub!(:solr_running? => true) }
+      before(:each) do 
+        SunspotTest.stub!(:solr_running?) { true } 
+      end
 
       it "does not try to spin up another server" do
         Kernel.should_not_receive(:fork)
