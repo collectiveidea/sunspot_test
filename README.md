@@ -1,4 +1,9 @@
 # SunspotTest
+[![Gem Version](https://badge.fury.io/rb/sunspot_test.png)](http://badge.fury.io/rb/sunspot_test)
+[![Build Status](https://travis-ci.org/collectiveidea/sunspot_test.svg?branch=master)](https://travis-ci.org/collectiveidea/sunspot_test)
+[![Code Climate](https://codeclimate.com/github/collectiveidea/sunspot_test.png)](https://codeclimate.com/github/collectiveidea/sunspot_test)
+[![Coverage Status](https://codeclimate.com/github/collectiveidea/sunspot_test/coverage.png)](https://codeclimate.com/github/collectiveidea/sunspot_test/coverage.png)
+[![Dependency Status](https://gemnasium.com/collectiveidea/sunspot_test.svg)](https://gemnasium.com/collectiveidea/sunspot_test)
 
 ## How to install
 
@@ -15,7 +20,7 @@ Or through bundler
 gem "sunspot_test"
 ```
 
-Then in Cucumber's `env.rb`:
+Then in Cucumber's env.rb:
 
 ```ruby
 require 'sunspot_test/cucumber'
