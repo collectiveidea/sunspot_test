@@ -135,7 +135,7 @@ describe SunspotTest do
     describe ".solr_running" do
       context "if solr is running" do
         before do
-          Net::HTTP.stub(get:true)
+          Net::HTTP.stub(get_response:double(code: '200'))
         end
 
         it "returns true" do
@@ -148,6 +148,17 @@ describe SunspotTest do
           expect(SunspotTest.send(:solr_running?)).to eq(false)
         end
       end
+
+      context "if solr is starting up" do
+        before do
+          Net::HTTP.stub(get_response:double(code: '503'))
+        end
+
+        it "returns false" do
+          expect(SunspotTest.send(:solr_running?)).to eq(false)
+        end
+      end
+
     end
     describe ".wait_until_solr_starts" do
       context "if solr never starts" do
