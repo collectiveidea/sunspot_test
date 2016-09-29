@@ -1,8 +1,9 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require "spec_helper"
 
 describe SunspotTest do
   describe ".solr_startup_timeout" do
     after(:all) { SunspotTest.solr_startup_timeout = 15 }
+
     it "defaults to 15" do
       expect(SunspotTest.solr_startup_timeout).to eq(15)
     end
@@ -135,7 +136,7 @@ describe SunspotTest do
     describe ".solr_running" do
       context "if solr is running" do
         before do
-          Net::HTTP.stub(get:true)
+          expect(Net::HTTP).to receive(:get).and_return(true)
         end
 
         it "returns true" do
@@ -149,6 +150,7 @@ describe SunspotTest do
         end
       end
     end
+
     describe ".wait_until_solr_starts" do
       context "if solr never starts" do
         before do
@@ -158,9 +160,8 @@ describe SunspotTest do
         it "calls solr_running? until solr_startup_timeout raises TimeOutError" do
           expect(SunspotTest).to receive(:solr_running?).exactly((SunspotTest.solr_startup_timeout * 10) + 1).times
 
-          expect {
-            SunspotTest.send(:wait_until_solr_starts) 
-          }.to raise_error SunspotTest::TimeOutError, "Solr failed to start after #{SunspotTest.solr_startup_timeout} seconds"
+          expect { SunspotTest.send(:wait_until_solr_starts) }
+            .to raise_error SunspotTest::TimeOutError, "Solr failed to start after #{SunspotTest.solr_startup_timeout} seconds"
         end
       end
 
@@ -168,9 +169,8 @@ describe SunspotTest do
         it "calls solr_running? and returns" do
           expect(SunspotTest).to receive(:solr_running?).exactly(2).times.and_return(true)
 
-          expect {
-            SunspotTest.send(:wait_until_solr_starts)
-          }.not_to raise_error
+          expect { SunspotTest.send(:wait_until_solr_starts) }
+            .not_to raise_error
         end
       end
     end
