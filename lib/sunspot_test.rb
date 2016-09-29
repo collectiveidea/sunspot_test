@@ -67,7 +67,7 @@ module SunspotTest
 
     def solr_running?
       begin
-        solr_ping_uri = URI.parse("#{Sunspot.session.config.solr.url}/ping")
+        solr_ping_uri = URI.parse("#{Sunspot.session.config.solr.url}/admin/ping")
         Net::HTTP.get(solr_ping_uri)
         true # Solr Running
       rescue
