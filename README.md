@@ -38,7 +38,7 @@ Feature: Books
     Given a book exists with a title of "Of Mice and Men"
 ```
 
-If you feature is not tagged with @search the environment will use a sunspot test proxy object which will silently swallow all requests.
+If your feature is not tagged with @search the environment will use a sunspot test proxy object which will silently swallow all requests.
 
 Starting solr will depend on your settings in `config/sunspot.yml` (though this configuration file is optional). If you run into issues remember to look for existing java processes, starting solr may conflict with existing instances. You can also check out http://collectiveidea.com/blog/archives/2011/05/25/testing-with-sunspot-and-cucumber/ which contains a little more information.
 
