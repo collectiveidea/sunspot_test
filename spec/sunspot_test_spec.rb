@@ -136,7 +136,7 @@ describe SunspotTest do
     describe ".solr_running" do
       context "if solr is running" do
         before do
-          expect(Net::HTTP).to receive(:get).and_return(true)
+          Net::HTTP.stub(get_response: double(code: '200'))
         end
 
         it "returns true" do
