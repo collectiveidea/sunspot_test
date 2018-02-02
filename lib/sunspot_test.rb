@@ -67,7 +67,7 @@ module SunspotTest
 
     def solr_running?
       begin
-        solr_ping_uri = URI.parse("#{Sunspot.session.config.solr.url}/ping")
+        solr_ping_uri = URI.parse("#{Sunspot.session.config.solr.url}/admin/ping")
         res = Net::HTTP.get_response(solr_ping_uri)
         # Solr will return 503 codes when it's starting up
         res.code != '503'
