@@ -58,13 +58,16 @@ describe SunspotTest do
 
         expect(SunspotTest).to receive(:fork) do |&block|
           expect(STDERR).to receive(:reopen).with("/dev/null")
-          expect(STDOUT).to receive(:reopen).with("/dev/null")
-          expect(SunspotTest.server).to receive(:run)
+          expect(SunspotTest.server).to receive(:start)
           block.call
         end
 
         expect(SunspotTest).to receive(:at_exit) do |&block|
-          expect(Process).to receive(:kill)
+          expect(SunspotTest).to receive(:fork) do |&block|
+            expect(STDOUT).to receive(:reopen).with("/dev/null")
+            expect(SunspotTest.server).to receive(:stop)
+            block.call
+          end
           block.call
         end
 
@@ -136,7 +139,7 @@ describe SunspotTest do
     describe ".solr_running" do
       context "if solr is running" do
         before do
-          Net::HTTP.stub(get_response: double(code: '200'))
+          allow(Net::HTTP).to receive_messages(get_response: double(code: '200'))
         end
 
         it "returns true" do
@@ -152,7 +155,7 @@ describe SunspotTest do
 
       context "if solr is starting up" do
         before do
-          Net::HTTP.stub(get_response:double(code: '503'))
+          allow(Net::HTTP).to receive_messages(get_response: double(code: '503'))
         end
 
         it "returns false" do

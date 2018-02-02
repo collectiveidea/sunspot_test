@@ -23,13 +23,18 @@ module SunspotTest
 
     def start_sunspot_server
       unless solr_running?
-        pid = fork do
+        # TODO remove forking (only call server.start) if sunspot_solr > 2.2.7
+        fork do
           STDERR.reopen("/dev/null")
-          STDOUT.reopen("/dev/null")
-          server.run
+          server.start
         end
 
-        at_exit { Process.kill("TERM", pid) }
+        at_exit do
+          fork do
+            STDOUT.reopen("/dev/null")
+            server.stop
+          end
+        end
 
         wait_until_solr_starts
       end
