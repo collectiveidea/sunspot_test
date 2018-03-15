@@ -54,19 +54,16 @@ describe SunspotTest do
       end
 
       # was getting funky issues when the test was broken up
-      it "forks the process, redirects stdout/stderr, runs server, sets exit hook, waits for server" do
-
-        expect(SunspotTest).to receive(:fork) do |&block|
-          expect(STDERR).to receive(:reopen).with("/dev/null")
+      it 'forks the process, redirects stdout/stderr, runs server, sets exit hook, waits for server' do
+        expect(SunspotTest).to receive(:suppress_output).with($stderr) do |&block|
           expect(SunspotTest.server).to receive(:start)
-          block.call
+          block.call($stderr)
         end
 
         expect(SunspotTest).to receive(:at_exit) do |&block|
-          expect(SunspotTest).to receive(:fork) do |&block|
-            expect(STDOUT).to receive(:reopen).with("/dev/null")
+          expect(SunspotTest).to receive(:suppress_output).with($stdout) do |&block|
             expect(SunspotTest.server).to receive(:stop)
-            block.call
+            block.call($stdout)
           end
           block.call
         end
@@ -163,6 +160,14 @@ describe SunspotTest do
         end
       end
 
+    end
+
+    describe ".suppress_output" do
+      it "restors default" do
+        original_class = $stdout.class
+        SunspotTest.send(:suppress_output, $stdout) { puts('this should not show up') }
+        expect($stdout.class).to eq(original_class)
+      end
     end
 
     describe ".wait_until_solr_starts" do
