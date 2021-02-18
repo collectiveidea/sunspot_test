@@ -54,17 +54,17 @@ describe SunspotTest do
       end
 
       # was getting funky issues when the test was broken up
-      it "forks the process, redirects stdout/stderr, runs server, sets exit hook, waits for server" do
-
-        expect(SunspotTest).to receive(:fork) do |&block|
-          expect(STDERR).to receive(:reopen).with("/dev/null")
-          expect(STDOUT).to receive(:reopen).with("/dev/null")
-          expect(SunspotTest.server).to receive(:run)
-          block.call
+      it 'forks the process, redirects stdout/stderr, runs server, sets exit hook, waits for server' do
+        expect(SunspotTest).to receive(:suppress_output).with($stderr) do |&block|
+          expect(SunspotTest.server).to receive(:start)
+          block.call($stderr)
         end
 
         expect(SunspotTest).to receive(:at_exit) do |&block|
-          expect(Process).to receive(:kill)
+          expect(SunspotTest).to receive(:suppress_output).with($stdout) do |&block|
+            expect(SunspotTest.server).to receive(:stop)
+            block.call($stdout)
+          end
           block.call
         end
 
@@ -136,7 +136,7 @@ describe SunspotTest do
     describe ".solr_running" do
       context "if solr is running" do
         before do
-          Net::HTTP.stub(get_response: double(code: '200'))
+          allow(Net::HTTP).to receive_messages(get_response: double(code: '200'))
         end
 
         it "returns true" do
@@ -152,7 +152,7 @@ describe SunspotTest do
 
       context "if solr is starting up" do
         before do
-          Net::HTTP.stub(get_response:double(code: '503'))
+          allow(Net::HTTP).to receive_messages(get_response: double(code: '503'))
         end
 
         it "returns false" do
@@ -160,6 +160,14 @@ describe SunspotTest do
         end
       end
 
+    end
+
+    describe ".suppress_output" do
+      it "restors default" do
+        original_class = $stdout.class
+        SunspotTest.send(:suppress_output, $stdout) { puts('this should not show up') }
+        expect($stdout.class).to eq(original_class)
+      end
     end
 
     describe ".wait_until_solr_starts" do

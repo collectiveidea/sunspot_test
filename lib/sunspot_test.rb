@@ -1,4 +1,5 @@
 require 'sunspot/rails'
+require 'sunspot/version'
 require 'net/http'
 
 module SunspotTest
@@ -23,13 +24,19 @@ module SunspotTest
 
     def start_sunspot_server
       unless solr_running?
-        pid = fork do
-          STDERR.reopen("/dev/null")
-          STDOUT.reopen("/dev/null")
-          server.run
+        if Sunspot::VERSION > '2.2.7'
+          server.start
+        else
+          suppress_output($stderr) do
+            server.start
+          end
         end
 
-        at_exit { Process.kill("TERM", pid) }
+        at_exit do
+          suppress_output($stdout) do
+            server.stop
+          end
+        end
 
         wait_until_solr_starts
       end
@@ -52,6 +59,14 @@ module SunspotTest
     end
 
     private
+
+    def suppress_output(output)
+      original_output = output.clone
+      output.reopen('/dev/null')
+      yield
+    ensure
+      output.reopen(original_output)
+    end
 
     def original_sunspot_session
       @original_sunspot_session ||= Sunspot.session
